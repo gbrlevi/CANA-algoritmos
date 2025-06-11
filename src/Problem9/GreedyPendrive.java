@@ -1,3 +1,5 @@
+package Problem9;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -13,20 +15,20 @@ public class GreedyPendrive {
                 new Pdf("POO in practice", 18, 900)
         };
 
-        int capacidadePendrive = 50;
+        double capacidadePendrive = 50;
 
         System.out.println("Pendrive total capacity: " + capacidadePendrive + "MB\n");
 
         calc(meusPdfs, capacidadePendrive);
     }
 
-    private static void calc(Pdf[] pdfs, int pendriveMbs){
+    private static void calc(Pdf[] pdfs, double pendriveMbs) {
 
         Comparator<Pdf> densityComparator = new Comparator<Pdf>() {
             @Override
             public int compare(Pdf p1, Pdf p2) {
-                Double density1 = (double) p1.pages / p1.mb;
-                Double density2 = (double) p2.pages / p2.mb;
+                Double density1 =  p1.pages / p1.mb;
+                Double density2 =  p2.pages / p2.mb;
 
                 return density2.compareTo(density1);
             }
@@ -34,17 +36,20 @@ public class GreedyPendrive {
 
         Arrays.sort(pdfs, densityComparator);
 
-        int leftMbs = pendriveMbs;
+        double leftMbs = pendriveMbs;
         List<Pdf> result = new ArrayList<>();
 
-        for(Pdf pdf: pdfs){
-            if(pdf.mb <= leftMbs){
+        System.out.println("-- Selecting by greedy algorithm\n");
+
+        for (Pdf pdf : pdfs) {
+            double density = pdf.pages/pdf.mb;
+            if (pdf.mb <= leftMbs) {
                 result.add(pdf);
                 leftMbs -= pdf.mb;
-                System.out.println("Choosing this pdf for his density:" + pdf.name + ": " + pdf.mb);
-                System.out.println("Left pendrive capacity:" + leftMbs);
-            } else{
-                System.out.println("This pdf exceeds max capacity!: "+ pdf.name);
+                System.out.println("Choosing this pdf for his density:" + pdf.name + ": " + density + " pages/mb");
+                System.out.println("Left pendrive capacity:" + leftMbs + "\n");
+            } else {
+                System.out.println("This pdf exceeds max capacity!: " + pdf.name + ": " + density + " pages/mb");
             }
         }
 
@@ -56,10 +61,10 @@ public class GreedyPendrive {
 
     private static class Pdf {
         String name;
-        int mb;
-        int pages;
+        double mb;
+        double pages;
 
-        public Pdf(String name, int mb, int pages) {
+        public Pdf(String name, double mb, double pages) {
             this.name = name;
             this.mb = mb;
             this.pages = pages;

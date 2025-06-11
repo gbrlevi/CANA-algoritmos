@@ -1,15 +1,15 @@
-public class Knapsack_dynamic {
+package Problem5;
+
+public class UnboundedKnapsack {
     public static void main(String[] args) {
 
         Item[] itens = {
-                new Item("Nulo", 0, 0),
-                new Item("B1", 2, 10),
-                new Item("B2", 4, 25),
-                new Item("B3", 2, 15),
-                new Item("B4", 5, 50)
+                new Item("Barra de Ouro", 4, 7),
+                new Item("Moeda de Prata", 3, 4),
+                new Item("Anel de Rubi", 5, 10)
         };
 
-        int sackCapacity = 6;
+        int sackCapacity = 10;
 
         int[][] table = calc(sackCapacity, itens);
 
@@ -31,29 +31,31 @@ public class Knapsack_dynamic {
                     table[i][w] = table[i - 1][w];
                 } else {
                     int notTake = table[i - 1][w];
-                    int take = itens[i].value + table[i - 1][w - itens[i].weight];
+                    int take = itens[i].value + table[i][w - itens[i].weight];
 
                     table[i][w] = Math.max(take, notTake);
                 }
             }
         }
 
-
         return table;
     }
 
-    private static void takenItens(int[][] table, int sackCapacity, Item[] itens){
-        System.out.println("Taken itens:");
-        int w = sackCapacity;
-        int totalItens = itens.length -1;
+    private static void takenItens(int[][] table, int sackCapacity, Item[] itens) {
+        System.out.println("Taken itens (unbounded):");
 
-        for(int i = totalItens; i > 0 && w > 0; i--){
-            if(table[i][w] != table[i-1][w]){
+        int w = sackCapacity;
+        int i = itens.length - 1;
+
+        while (i > 0 && w > 0) {
+            if (table[i][w] == table[i - 1][w]) {
+                i--;
+            } else {
                 System.out.println("- " + itens[i].name + " (Weight: " + itens[i].weight + ", Value: " + itens[i].value + ")");
+
                 w = w - itens[i].weight;
             }
         }
-
     }
 
     private static class Item {

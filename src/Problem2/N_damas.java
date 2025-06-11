@@ -1,7 +1,9 @@
+package Problem2;
+
 public class N_damas {
     public static void main(String[] args) {
 
-        int n = 8;
+        int n = 10;
 
         int[][] tabuleiro = new int[n][n];
 
@@ -62,7 +64,7 @@ public class N_damas {
             }
         }
 
-        for(int i = linha, j = coluna; i < tabuleiro.length && j >=0; i--, j--){
+        for(int i = linha, j = coluna; i < tabuleiro.length && j >=0; i++, j--){
             if (tabuleiro[i][j] == 1) {
                 return false;
             }
